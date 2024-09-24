@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from "react";
-import registerRequest from "../api/registerRequest";
-import loginRequest from "../api/loginRequest";
+import registerRequest from "../api/usuarios/registerRequest";
+import loginRequest from "../api/usuarios/loginRequest";
 
 const AuthContext = createContext();
 
