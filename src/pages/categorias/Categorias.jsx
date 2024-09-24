@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
-import { UseAuth } from "../context/AuthContext";
+import { UseAuth } from "../../context/AuthContext";
 
 const Categorias = () => {
   const [data, setData] = useState(null);

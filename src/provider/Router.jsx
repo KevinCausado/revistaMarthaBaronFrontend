@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
-import Categorias from "../pages/Categorias";
 import Register from "../pages/usuarios/Register";
 import Login from "../pages/usuarios/Login";
+import Categorias from "../pages/categorias/Categorias";
 
 const Router = () => {
   return (

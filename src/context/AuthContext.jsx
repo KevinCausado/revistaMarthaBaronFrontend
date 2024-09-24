@@ -16,11 +16,13 @@ const UseAuth = () => {
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
 
   const signup = async (user) => {
     try {
       const response = await registerRequest(user);
       setUser(response?.data);
+      setIsRegistered(true);
     } catch (error) {
       console.log(error);
     }
@@ -30,14 +32,14 @@ const AuthProvider = ({ children }) => {
     try {
       const response = await loginRequest(user);
       setUser(response?.data);
-      console.log('Datos:',response?.data.token)
+      console.log("Datos:", response?.data.token);
       setIsAuthenticated(true);
     } catch (error) {
       console.log(error);
     }
   };
 
-  return <AuthContext.Provider value={{ user, isAuthenticated, signup, login }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isAuthenticated, isRegistered, signup, login }}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContext, UseAuth, AuthProvider };

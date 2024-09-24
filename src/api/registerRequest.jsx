@@ -6,9 +6,10 @@ const API = "http://localhost:4000/api/v1/auth/signup";
 const registerRequest = async (user) => {
   try {
     const response = await axios.post(API, user);
-    console.log(response?.data);
+    console.log('Mensaje del servidor:',response?.data)
+    return response;
   } catch (error) {
-    console.error("Error al registrar el usuario", error.response?.data || error.message);
+    console.error("Mensaje de error del servidor", error.response?.data || error.message);
     throw error;
   }
 };

@@ -6,14 +6,13 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
   const { register, handleSubmit } = useForm();
 
-  const { signup,isAuthenticated } = UseAuth();
+  const { signup, isRegistered } = UseAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
-       navigate('/')
-    }
-  
+    if (isRegistered) {
+       navigate('/login')
+    }  
     
   }, [{isAuthenticated}])
   
