@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
   const signup = async (user) => {
     try {
       const response = await registerRequest(user);
-      setUser(response?.data);
+      setUser({ ...response?.data });
       setIsRegistered(true);
     } catch (error) {
       console.log(error);
@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
   const login = async (user) => {
     try {
       const response = await loginRequest(user);
-      setUser(response?.data);
+      setUser({ ...response?.data, isAdmin: response?.data.rol === "admin" });
       console.log("Datos:", response?.data.token);
       setIsAuthenticated(true);
     } catch (error) {

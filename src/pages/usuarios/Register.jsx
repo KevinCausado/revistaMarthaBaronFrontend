@@ -14,7 +14,7 @@ const Register = () => {
        navigate('/login')
     }  
     
-  }, [{isAuthenticated}])
+  }, [{isRegistered}])
   
 
   return (
