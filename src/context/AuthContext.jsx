@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
       const response = await loginRequest(user);
       setUser({ ...response?.data, isAdmin: response?.data.rol === "admin" });
       // console.log("Datos:", response?.data.token);
-      setIsAuthenticated(true);
+      setIsAuthenticated(true);      
     } catch (error) {      
       setServerError(error.response?.data)
     }

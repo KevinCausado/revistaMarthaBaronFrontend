@@ -3,12 +3,13 @@ import { useForm } from "react-hook-form";
 import { UseAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,formState:{errors} } = useForm();
   const {login,isAuthenticated,serverError} = UseAuth();
   const navigate = useNavigate()
 
 
   useEffect(() => {
+    console.log('isAuthenticated:',isAuthenticated)
     if (isAuthenticated) {
       navigate('/')
     }
@@ -23,7 +24,9 @@ const Login = () => {
         <input type="password" {...register('contrasena',)} placeholder="Contraseña" />
         <button type="submit">Iniciar sesión</button>
       </form>
-      { serverError && <p>{serverError.message}</p>}
+
+      {/* Mensajes de error del servidor */}
+      { serverError && <p>{serverError?.message}</p>}
     </>
     
   );

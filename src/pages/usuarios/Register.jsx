@@ -10,7 +10,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { signup, isRegistered,serverError } = UseAuth();
+  const { signup, isRegistered, serverError } = UseAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,9 +28,9 @@ const Register = () => {
           signup(values);
         })}
       >
-        <input type="text" {...register("usuario")} placeholder="usuario" />        
-        <input type="password" {...register("contrasena")} placeholder="contraseña" />
-        <input type="password" {...register("confirmarContrasena")} placeholder="confirmar contraseña" />
+        <input type="text" {...register("usuario", { required: true })} placeholder="usuario" />
+        <input type="password" {...register("contrasena", { required: true })} placeholder="contraseña" />
+        <input type="password" {...register("confirmarContrasena", { required: true })} placeholder="confirmar contraseña" />
         <label htmlFor="">Rol</label>
         <select {...register("rol")}>
           <option value="admin">admin</option>
@@ -38,7 +38,11 @@ const Register = () => {
         </select>
         <button type="submit">Registrar</button>
       </form>
-      { serverError && <p>{serverError.message}</p>}
+
+      {/* Errores validacion campos */}
+      {errors.usuario && <p>Nombre de usuario es requerido</p>}
+      {errors.contrasena && <p>Contraseña requerido</p>}
+      {errors.confirmarContrasena && <p>Confirmar contraseña requerido</p>}
     </>
   );
 };
