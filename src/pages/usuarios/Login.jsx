@@ -4,7 +4,7 @@ import { UseAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const {login,isAuthenticated} = UseAuth();
+  const {login,isAuthenticated,serverError} = UseAuth();
   const navigate = useNavigate()
 
 
@@ -19,11 +19,13 @@ const Login = () => {
     <>
       <div>Login</div>
       <form onSubmit={handleSubmit((values)=>{login(values)})}>
-        <input type="text" {...register('usuario',{required:true})} placeholder="Usuario" />
-        <input type="password" {...register('contrasena',{required:true})} placeholder="Contraseña" />
+        <input type="text" {...register('usuario')} placeholder="Usuario" />
+        <input type="password" {...register('contrasena',)} placeholder="Contraseña" />
         <button type="submit">Iniciar sesión</button>
       </form>
+      { serverError && <p>{serverError.message}</p>}
     </>
+    
   );
 };
 

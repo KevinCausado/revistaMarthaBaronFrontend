@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
+  const [serverError,setServerError]= useState(null)
 
   const signup = async (user) => {
     try {
@@ -24,7 +25,7 @@ const AuthProvider = ({ children }) => {
       setUser({ ...response?.data });
       setIsRegistered(true);
     } catch (error) {
-      console.log(error);
+      setServerError(error.response?.data)
     }
   };
 
@@ -32,14 +33,14 @@ const AuthProvider = ({ children }) => {
     try {
       const response = await loginRequest(user);
       setUser({ ...response?.data, isAdmin: response?.data.rol === "admin" });
-      console.log("Datos:", response?.data.token);
+      // console.log("Datos:", response?.data.token);
       setIsAuthenticated(true);
-    } catch (error) {
-      console.log(error);
+    } catch (error) {      
+      setServerError(error.response?.data)
     }
   };
 
-  return <AuthContext.Provider value={{ user, isAuthenticated, isRegistered, signup, login }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isAuthenticated, isRegistered,serverError, signup, login }}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContext, UseAuth, AuthProvider };

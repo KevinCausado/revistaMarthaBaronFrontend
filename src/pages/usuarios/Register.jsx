@@ -1,30 +1,36 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import {UseAuth} from "../../context/AuthContext";
+import { UseAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const { signup, isRegistered } = UseAuth();
+  const { signup, isRegistered,serverError } = UseAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isRegistered) {
-       navigate('/login')
-    }  
-    
-  }, [{isRegistered}])
-  
+      navigate("/login");
+    }
+  }, [{ isRegistered }]);
 
   return (
     <>
       <div>RegisterUser</div>
 
-      <form onSubmit={handleSubmit((values) => {signup(values);})}>
-        <input type="text" {...register("usuario", { required: true })} placeholder="usuario" />
-        <input type="password" {...register("contrasena", { required: true })} placeholder="contraseña" />
-        <input type="password" {...register("confirmarContrasena", { required: true })} placeholder="confirmar contraseña" />
+      <form
+        onSubmit={handleSubmit((values) => {
+          signup(values);
+        })}
+      >
+        <input type="text" {...register("usuario")} placeholder="usuario" />        
+        <input type="password" {...register("contrasena")} placeholder="contraseña" />
+        <input type="password" {...register("confirmarContrasena")} placeholder="confirmar contraseña" />
         <label htmlFor="">Rol</label>
         <select {...register("rol")}>
           <option value="admin">admin</option>
@@ -32,6 +38,7 @@ const Register = () => {
         </select>
         <button type="submit">Registrar</button>
       </form>
+      { serverError && <p>{serverError.message}</p>}
     </>
   );
 };
