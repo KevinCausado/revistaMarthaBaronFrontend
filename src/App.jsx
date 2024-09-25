@@ -1,14 +1,10 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard, Auth } from "@/layouts";
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-function App() {
-  return (
-    <Routes>
-      <Route path="/dashboard/*" element={<Dashboard />} />
-      <Route path="/auth/*" element={<Auth />} />
-      <Route path="*" element={<Navigate to="/dashboard/home" replace />} />
-    </Routes>
-  );
-}
+import routes, { renderRoutes } from './routes';
+
+const App = () => {
+  return <BrowserRouter basename={import.meta.env.VITE_APP_BASE_NAME}>{renderRoutes(routes)}</BrowserRouter>;
+};
 
 export default App;
