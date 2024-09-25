@@ -31,6 +31,7 @@ export const renderRoutes = (routes = []) => (
 );
 
 const routes = [
+  
   {
     exact: 'true',
     path: '/login',
