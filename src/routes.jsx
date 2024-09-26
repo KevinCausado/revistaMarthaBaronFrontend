@@ -1,10 +1,9 @@
 import React, { Suspense, Fragment, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
 import Loader from './components/Loader/Loader';
 import AdminLayout from './layouts/AdminLayout';
-
-import { BASE_URL } from './config/constant';
+import PrivateRoute from './PrivateRoute';
+import { BASE_URL_LOGIN } from './config/constant';
 
 export const renderRoutes = (routes = []) => (
   <Suspense fallback={<Loader />}>
@@ -19,9 +18,17 @@ export const renderRoutes = (routes = []) => (
             key={i}
             path={route.path}
             element={
-              <Guard>
-                <Layout>{route.routes ? renderRoutes(route.routes) : <Element props={true} />}</Layout>
-              </Guard>
+              route.private ? (
+                <PrivateRoute>
+                  <Guard>
+                    <Layout>{route.routes ? renderRoutes(route.routes) : <Element props={true} />}</Layout>
+                  </Guard>
+                </PrivateRoute>
+              ) : (
+                <Guard>
+                  <Layout>{route.routes ? renderRoutes(route.routes) : <Element props={true} />}</Layout>
+                </Guard>
+              )
             }
           />
         );
@@ -31,7 +38,6 @@ export const renderRoutes = (routes = []) => (
 );
 
 const routes = [
-  
   {
     exact: 'true',
     path: '/login',
@@ -54,67 +60,79 @@ const routes = [
       {
         exact: 'true',
         path: '/app/dashboard/default',
-        element: lazy(() => import('./views/dashboard'))
+        element: lazy(() => import('./views/dashboard')),
+        private: true
       },
       {
         exact: 'true',
         path: '/basic/button',
-        element: lazy(() => import('./views/ui-elements/basic/BasicButton'))
+        element: lazy(() => import('./views/ui-elements/basic/BasicButton')),
+        private: true
       },
       {
         exact: 'true',
         path: '/basic/badges',
-        element: lazy(() => import('./views/ui-elements/basic/BasicBadges'))
+        element: lazy(() => import('./views/ui-elements/basic/BasicBadges')),
+        private: true
       },
       {
         exact: 'true',
         path: '/basic/breadcrumb-paging',
-        element: lazy(() => import('./views/ui-elements/basic/BasicBreadcrumb'))
+        element: lazy(() => import('./views/ui-elements/basic/BasicBreadcrumb')),
+        private: true
       },
       {
         exact: 'true',
         path: '/basic/collapse',
-        element: lazy(() => import('./views/ui-elements/basic/BasicCollapse'))
+        element: lazy(() => import('./views/ui-elements/basic/BasicCollapse')),
+        private: true
       },
       {
         exact: 'true',
         path: '/basic/tabs-pills',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTabsPills'))
+        element: lazy(() => import('./views/ui-elements/basic/BasicTabsPills')),
+        private: true
       },
       {
         exact: 'true',
         path: '/basic/typography',
-        element: lazy(() => import('./views/ui-elements/basic/BasicTypography'))
+        element: lazy(() => import('./views/ui-elements/basic/BasicTypography')),
+        private: true
       },
       {
         exact: 'true',
         path: '/forms/form-basic',
-        element: lazy(() => import('./views/forms/FormsElements'))
+        element: lazy(() => import('./views/forms/FormsElements')),
+        private: true
       },
       {
         exact: 'true',
         path: '/tables/bootstrap',
-        element: lazy(() => import('./views/tables/BootstrapTable'))
+        element: lazy(() => import('./views/tables/BootstrapTable')),
+        private: true
       },
       {
         exact: 'true',
         path: '/charts/nvd3',
-        element: lazy(() => import('./views/charts/nvd3-chart'))
+        element: lazy(() => import('./views/charts/nvd3-chart')),
+        private: true
       },
       {
         exact: 'true',
         path: '/maps/google-map',
-        element: lazy(() => import('./views/maps/GoogleMaps'))
+        element: lazy(() => import('./views/maps/GoogleMaps')),
+        private: true
       },
       {
         exact: 'true',
         path: '/sample-page',
-        element: lazy(() => import('./views/extra/SamplePage'))
+        element: lazy(() => import('./views/extra/SamplePage')),
+        private: true
       },
       {
         path: '*',
         exact: 'true',
-        element: () => <Navigate to={BASE_URL} />
+        element: () => <Navigate to={BASE_URL_LOGIN} />
       }
     ]
   }

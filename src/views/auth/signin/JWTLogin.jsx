@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { UseAuth } from 'contexts/ConfigContext';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { BASE_URL_DASHBOARD } from 'config/constant';
 
 const JWTLogin = () => {
-  const { signup } = UseAuth();
+  const { signup, isAuthenticated } = UseAuth();
+  const navigate = useNavigate();
+
+  console.log('isAuthenticated', isAuthenticated);
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(BASE_URL_DASHBOARD);
+    }
+  }, [{ isAuthenticated }]);
 
   return (
     <Formik
@@ -14,7 +24,7 @@ const JWTLogin = () => {
         contrasena: 'Wewefu5600*',
         submit: null
       }}
-      onSubmit={async(values) => {
+      onSubmit={async (values) => {
         console.log('Datos Formulario', values);
         await signup(values);
       }}

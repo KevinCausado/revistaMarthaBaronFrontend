@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import * as actionType from '../store/actions';
 import { CONFIG } from '../config/constant';
 import { useState } from 'react';
@@ -113,20 +113,45 @@ const UseAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [rol, setRol] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('Token');
+    const rol = localStorage.getItem('Rol');
+    if (token) {
+      setIsAuthenticated(true);
+      setRol(rol);
+    }
+  }, []);
 
   const signup = async (user) => {
     try {
       const response = await loginRequest(user);
+
+      //Almaceno el token y el rol
+      localStorage.setItem('Token', response?.token);
+      localStorage.setItem('Rol', response?.rol);
+
+      console.log('Token Guardado;', localStorage.getItem('Token'));
+      console.log('Rol Guardado;', localStorage.getItem('Rol'));
+
       setUser({ ...response });
-      console.log('Mensaje Servidor:',response)
-      return response
+      console.log('Mensaje Servidor:', response);
+      setIsAuthenticated(true);
+      return response;
     } catch (error) {
       console.log('Error desde configContext', error);
       throw error;
     }
   };
 
-  return <AuthContext.Provider value={{ user, signup }}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    localStorage.removeItem('Token');
+    setIsAuthenticated(false);
+  };
+
+  return <AuthContext.Provider value={{ user, isAuthenticated, rol, signup, logout }}>{children}</AuthContext.Provider>;
 };
 
 export { ConfigContext, ConfigProvider, AuthContext, UseAuth, AuthProvider };
