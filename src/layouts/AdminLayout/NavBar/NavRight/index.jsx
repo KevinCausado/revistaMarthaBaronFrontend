@@ -10,8 +10,13 @@ import avatar2 from '../../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../../assets/images/user/avatar-3.jpg';
 import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
 
+import { UseAuth } from 'contexts/ConfigContext';
+
+
+
 const NavRight = () => {
   const [listOpen, setListOpen] = useState(false);
+  const {logout} = UseAuth()
 
   const notiData = [
     {
@@ -147,6 +152,13 @@ const NavRight = () => {
                 <ListGroup.Item as="li" bsPrefix=" ">
                   <Link to="#" className="dropdown-item">
                     <i className="feather icon-lock" /> Lock Screen
+                  </Link>
+                </ListGroup.Item>
+
+                {/* //Finalizar sesion */}
+                <ListGroup.Item as="li" bsPrefix=" ">
+                  <Link to="#" className="dropdown-item" onClick={logout}>
+                    <i className="feather icon-log-out" /> Log Out
                   </Link>
                 </ListGroup.Item>
               </ListGroup>
