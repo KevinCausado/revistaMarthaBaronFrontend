@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import * as actionType from '../store/actions';
 import { CONFIG } from '../config/constant';
+import { useState } from 'react';
+import loginRequest from 'api/auth/loginRequest';
+import { useCol } from 'react-bootstrap/esm/Col';
 
 const initialState = {
   ...CONFIG,
@@ -94,4 +97,36 @@ ConfigProvider.propTypes = {
   children: PropTypes.object
 };
 
-export { ConfigContext, ConfigProvider };
+// --------------------------------------------------------------------------
+
+const AuthContext = createContext();
+
+const UseAuth = () => {
+  const contexto = useContext(AuthContext);
+
+  if (!contexto) {
+    throw new Error('/UseAuth/ debe estar dentro de /AuthProvider/');
+  }
+
+  return contexto;
+};
+
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  const signup = async (user) => {
+    try {
+      const response = await loginRequest(user);
+      setUser({ ...response });
+      console.log('Mensaje Servidor:',response)
+      return response
+    } catch (error) {
+      console.log('Error desde configContext', error);
+      throw error;
+    }
+  };
+
+  return <AuthContext.Provider value={{ user, signup }}>{children}</AuthContext.Provider>;
+};
+
+export { ConfigContext, ConfigProvider, AuthContext, UseAuth, AuthProvider };

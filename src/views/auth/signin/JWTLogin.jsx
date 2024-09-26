@@ -2,18 +2,25 @@ import React from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import { UseAuth } from 'contexts/ConfigContext';
 
 const JWTLogin = () => {
+  const { signup } = UseAuth();
+
   return (
     <Formik
       initialValues={{
-        email: 'info@codedthemes.com',
-        password: '123456',
+        usuario: 'ragnargladiatore@gmail.com',
+        contrasena: 'Wewefu5600*',
         submit: null
       }}
+      onSubmit={async(values) => {
+        console.log('Datos Formulario', values);
+        await signup(values);
+      }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-        password: Yup.string().max(255).required('Password is required')
+        usuario: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+        contrasena: Yup.string().max(255).required('Password is required')
       })}
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -22,25 +29,25 @@ const JWTLogin = () => {
             <input
               className="form-control"
               label="Email Address / Username"
-              name="email"
+              name="usuario"
               onBlur={handleBlur}
               onChange={handleChange}
               type="email"
-              value={values.email}
+              value={values.usuario}
             />
-            {touched.email && errors.email && <small className="text-danger form-text">{errors.email}</small>}
+            {touched.usuario && errors.usuario && <small className="text-danger form-text">{errors.usuario}</small>}
           </div>
           <div className="form-group mb-4">
             <input
               className="form-control"
               label="Password"
-              name="password"
+              name="contrasena"
               onBlur={handleBlur}
               onChange={handleChange}
               type="password"
-              value={values.password}
+              value={values.contrasena}
             />
-            {touched.password && errors.password && <small className="text-danger form-text">{errors.password}</small>}
+            {touched.contrasena && errors.contrasena && <small className="text-danger form-text">{errors.contrasena}</small>}
           </div>
 
           <div className="custom-control custom-checkbox  text-start mb-4 mt-2">
