@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Loader from './components/Loader/Loader';
 import AdminLayout from './layouts/AdminLayout';
 import PrivateRoute from './PrivateRoute';
-import { BASE_URL_LOGIN } from './config/constant';
+import { BASE_URL_DASHBOARD, BASE_URL_LOGIN } from './config/constant';
 
 export const renderRoutes = (routes = []) => (
   <Suspense fallback={<Loader />}>
@@ -132,7 +132,7 @@ const routes = [
       {
         path: '*',
         exact: 'true',
-        element: () => <Navigate to={BASE_URL_LOGIN} />
+        element: () => <Navigate to={BASE_URL_DASHBOARD} />
       }
     ]
   }
