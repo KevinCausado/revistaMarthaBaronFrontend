@@ -3,8 +3,8 @@ import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import * as actionType from '../store/actions';
 import { CONFIG } from '../config/constant';
 import { useState } from 'react';
-import loginRequest from 'api/auth/loginRequest';
 import { useCol } from 'react-bootstrap/esm/Col';
+import AuthRequest from 'api/auth/AuthRequest';
 
 const initialState = {
   ...CONFIG,
@@ -125,16 +125,15 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const signup = async (user) => {
+  const login = async (user) => {
     try {
-      const response = await loginRequest(user);
+      const response = await AuthRequest.login(user);
 
       //Almaceno el token y el rol
       localStorage.setItem('Token', response?.token);
       localStorage.setItem('Rol', response?.rol);
 
-      console.log('Token Guardado;', localStorage.getItem('Token'));
-      console.log('Rol Guardado;', localStorage.getItem('Rol'));
+      console.log('Token Guardado;', localStorage.getItem('Token'));   
 
       setUser({ ...response });
       console.log('Mensaje Servidor:', response);
@@ -151,7 +150,7 @@ const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  return <AuthContext.Provider value={{ user, isAuthenticated, rol, signup, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, isAuthenticated, rol, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 export { ConfigContext, ConfigProvider, AuthContext, UseAuth, AuthProvider };

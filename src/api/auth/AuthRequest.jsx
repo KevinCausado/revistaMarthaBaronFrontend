@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React from 'react';
 
-const loginRequest = async (user) => {
+class AuthRequest {
+
+ static async login(user) {
   try {
     const API = 'http://localhost:4000/api/v1/auth/login';
     const response = await axios.post(API, user);
@@ -12,4 +14,6 @@ const loginRequest = async (user) => {
   }
 };
 
-export default loginRequest;
+}
+
+export default AuthRequest ;

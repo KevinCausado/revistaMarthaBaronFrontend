@@ -7,7 +7,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { BASE_URL_DASHBOARD } from 'config/constant';
 
 const JWTLogin = () => {
-  const { signup, isAuthenticated } = UseAuth();
+  const { login, isAuthenticated } = UseAuth();
   const navigate = useNavigate();
 
   console.log('isAuthenticated', isAuthenticated);
@@ -26,7 +26,7 @@ const JWTLogin = () => {
       }}
       onSubmit={async (values) => {
         console.log('Datos Formulario', values);
-        await signup(values);
+        await login(values);
       }}
       validationSchema={Yup.object().shape({
         usuario: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
