@@ -20,7 +20,9 @@ File: style.css
         -   Invoice, Full Calender, File Upload,
 =================================================================================
 =================================================================================== */
+@use 'sass:color';
 @import 'bootstrap/dist/css/bootstrap';
+
 // General theme contents
 @import 'partials/variables';
 @import 'partials/general';

@@ -114,7 +114,7 @@ const UseAuth = () => {
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [rol, setRol] = useState(null);
+  const [errorMessage,setErrorMessage] = useState([])  
 
   useEffect(() => {
     const token = localStorage.getItem('Token');
@@ -141,6 +141,10 @@ const AuthProvider = ({ children }) => {
       return response;
     } catch (error) {
       console.log('Error desde configContext', error);
+      if (error.response?.status === 401) {
+        setErrorMessage(...['Credenciales invalidas'])
+        setShowError(true)
+      }
       throw error;
     }
   };
@@ -150,7 +154,15 @@ const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  return <AuthContext.Provider value={{ user, isAuthenticated, rol, login, logout }}>{children}</AuthContext.Provider>;
+  const values = {
+    user,
+    isAuthenticated,
+    errorMessage,    
+    login,
+    logout
+  }
+
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
 
 export { ConfigContext, ConfigProvider, AuthContext, UseAuth, AuthProvider };

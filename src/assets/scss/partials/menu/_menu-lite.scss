@@ -326,7 +326,7 @@
           }
 
           &.notification:hover {
-            background: transparentize($primary-color, 0.9);
+            background: color.scale($primary-color, $alpha: -90%);
           }
 
           p {
@@ -418,7 +418,7 @@
           &:active,
           &:focus,
           &:hover {
-            background: transparentize($primary-color, 0.9);
+            background: color.scale($primary-color, $alpha: -90%);
 
             > a {
               background: transparent;
@@ -790,7 +790,7 @@
   color: $menu-dark-text-color;
 
   .pcoded-submenu {
-    background: darken($header-dark-background, 3%);
+    background: color.scale($header-dark-background, $lightness: -3%);
     padding: 15px 0;
   }
 
@@ -897,7 +897,7 @@
               left: calc(calc(#{$Menu-collapsed-width} / 2) - 3px);
               width: 1px;
               height: calc(100% - 49px);
-              background: transparentize($menu-dark-text-color, 0.8);
+              background: color.scale($menu-dark-text-color, $alpha: -80%);
             }
 
             li {
@@ -1077,7 +1077,7 @@
         }
 
         > a {
-          background: darken($menu-dark-background, 6%);
+          background: color.scale($menu-dark-background, $lightness: -6%);
           color: #fff;
         }
       }
