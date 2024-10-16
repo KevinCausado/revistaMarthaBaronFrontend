@@ -112,16 +112,17 @@ const UseAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [errorMessage,setErrorMessage] = useState([])  
+  const [errorMessage, setErrorMessage] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('Token');
-    const rol = localStorage.getItem('Rol');
     if (token) {
       setIsAuthenticated(true);
-      setRol(rol);
     }
   }, []);
 
@@ -129,21 +130,24 @@ const AuthProvider = ({ children }) => {
     try {
       const response = await AuthRequest.login(user);
 
-      //Almaceno el token y el rol
+      //Almaceno el token
       localStorage.setItem('Token', response?.token);
-      localStorage.setItem('Rol', response?.rol);
 
-      console.log('Token Guardado;', localStorage.getItem('Token'));   
+      console.log('Token Guardado;', localStorage.getItem('Token'));
+      const persona = response.data?.persona_usuario;
 
-      setUser({ ...response });
+      setUser({ ...persona });
+
+      localStorage.setItem('user', JSON.stringify(persona));
+
       console.log('Mensaje Servidor:', response);
       setIsAuthenticated(true);
       return response;
     } catch (error) {
       console.log('Error desde configContext', error);
       if (error.response?.status === 401) {
-        setErrorMessage(...['Credenciales invalidas'])
-        setShowError(true)
+        setErrorMessage(...['Credenciales invalidas']);
+        setShowError(true);
       }
       throw error;
     }
@@ -157,10 +161,10 @@ const AuthProvider = ({ children }) => {
   const values = {
     user,
     isAuthenticated,
-    errorMessage,    
+    errorMessage,
     login,
     logout
-  }
+  };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

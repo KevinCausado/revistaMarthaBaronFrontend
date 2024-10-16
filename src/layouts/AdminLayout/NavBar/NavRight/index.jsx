@@ -12,11 +12,9 @@ import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
 
 import { UseAuth } from 'contexts/ConfigContext';
 
-
-
 const NavRight = () => {
   const [listOpen, setListOpen] = useState(false);
-  const {logout} = UseAuth()
+  const { logout, user } = UseAuth();
 
   const notiData = [
     {
@@ -128,7 +126,7 @@ const NavRight = () => {
             <Dropdown.Menu align="end" className="profile-notification">
               <div className="pro-head">
                 <img src={avatar1} className="img-radius" alt="User Profile" />
-                <span>John Doe</span>
+                <span>{user ? `${user.primer_nombre} ${user.primer_apellido}` : 'Cargando...'}</span>
                 <Link to="#" className="dud-logout" title="Logout">
                   <i className="feather icon-log-out" />
                 </Link>
@@ -140,7 +138,7 @@ const NavRight = () => {
                   </Link>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="#" className="dropdown-item">
+                  <Link to="/perfil" className="dropdown-item">
                     <i className="feather icon-user" /> Profile
                   </Link>
                 </ListGroup.Item>

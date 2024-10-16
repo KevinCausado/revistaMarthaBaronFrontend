@@ -129,6 +129,16 @@ const routes = [
         element: lazy(() => import('./views/extra/SamplePage')),
         private: true
       },
+
+
+      // Perfil Admin
+      {
+        exact: 'true',
+        path: '/perfil',
+        element: lazy(() => import('./views/forms/PerfilAdmin')),
+        private: true
+      },
+
       {
         path: '*',
         exact: 'true',
