@@ -1,11 +1,26 @@
+import PaisRequest from 'api/pais/PaisRequest';
 import { UseAuth } from 'contexts/ConfigContext';
-import React from 'react';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown } from 'react-bootstrap';
 
-
-
 const FormsElements = () => {
-    const {user} = UseAuth()
+  const { user, token } = UseAuth();
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await PaisRequest.getAll(token);
+        console.log('Paises:', data);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <React.Fragment>
@@ -21,7 +36,7 @@ const FormsElements = () => {
                   <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
-                      <Form.Control type="email" value={user ? `${user.email}`: 'Cargando...'} placeholder="Enter email" />
+                      <Form.Control type="email" defaultValue={user ? user.email : 'Cargando...'} placeholder="Enter email" />
                       <Form.Text className="text-muted">We&apos;ll never share your email with anyone else.</Form.Text>
                     </Form.Group>
 
@@ -58,7 +73,7 @@ const FormsElements = () => {
               </Row>
             </Card.Body>
           </Card>
-        </Col>                 
+        </Col>
       </Row>
     </React.Fragment>
   );

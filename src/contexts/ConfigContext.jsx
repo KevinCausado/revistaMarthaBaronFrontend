@@ -116,6 +116,7 @@ const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
+  const [token, setToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMessage, setErrorMessage] = useState([]);
 
@@ -123,6 +124,7 @@ const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('Token');
     if (token) {
       setIsAuthenticated(true);
+      setToken(token);
     }
   }, []);
 
@@ -131,7 +133,9 @@ const AuthProvider = ({ children }) => {
       const response = await AuthRequest.login(user);
 
       //Almaceno el token
-      localStorage.setItem('Token', response?.token);
+      const token = response?.token;
+      localStorage.setItem('Token', token);
+      setToken(token);
 
       console.log('Token Guardado;', localStorage.getItem('Token'));
       const persona = response.data?.persona_usuario;
@@ -160,6 +164,7 @@ const AuthProvider = ({ children }) => {
 
   const values = {
     user,
+    token,
     isAuthenticated,
     errorMessage,
     login,
